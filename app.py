@@ -1,7 +1,5 @@
 import customtkinter as ctk 
 import tkinter as ttk 
-from pytube import YouTube 
-import moviepy.editor as mpe
 import os 
 
 def download_video():
