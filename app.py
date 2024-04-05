@@ -1,26 +1,30 @@
 import customtkinter as ctk 
 import tkinter as ttk 
 import os 
+import pyqrcode 
+from pyqrcode import QRCode 
+from io import StringIO
 
 def converted_link():
-    global status_label  
+    global status_label, entry_url
+    
+    # Get URL from the entry widget
     url = entry_url.get()
-    print(url)
     if url: 
-        # Open a new window for displaying QR code and copy button
-        qr_window = ctk.CTk()
-        qr_window.title("QR Code")
-        qr_window.geometry("400x400")
+        # Generate QR code
+        qr_code = pyqrcode.create(url)
         
-        qr_label = ctk.CTkLabel(qr_window, text="QR Code will be displayed here")
-        qr_label.pack(pady=10)
+        # Specify the file path
+        file_path = r"C:\Users\Harish\OneDrive\Pictures\Documents\GitHub\Password\My QR Codes"
+        file_name = "qr_code.svg"
+        file_full_path = os.path.join(file_path, file_name)
         
-        copy_button = ctk.CTkButton(qr_window, text="Copy", command=copy_password)
-        copy_button.pack(pady=10)
+        # Save QR code to a file
+        qr_code.svg(file_full_path, scale=8)  
         
-        qr_window.mainloop()
-
-    else : 
+        status_label.configure(text=f"QR Code saved to {file_full_path}")
+        os.startfile(file_full_path)
+    else: 
         status_label.configure(text="Pls Input URL")
 
 def find_pw():
